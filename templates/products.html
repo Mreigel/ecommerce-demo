@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<section class="featured-products">
+  <h2>Featured Products</h2>
+  <div class="products-grid">
+    {% for product in products.values() %}
+    <div class="product-card">
+      <a href="{{ url_for('product_detail', product_id=product.id) }}">
+        <img src="{{ url_for('static', filename='product' ~ product.id ~ '.jpg') }}" alt="{{ product.name }}">
+      </a>
+      <h3>{{ product.name }}</h3>
+      <p class="price">${{ "%.2f"|format(product.price) }}</p>
+      <button onclick="window.location.href='{{ url_for('add_to_cart', product_id=product.id) }}'">Add to Cart</button>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

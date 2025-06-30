@@ -1,0 +1,23 @@
+<a href="{{ url_for('products_page') }}">Products</a>
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - Details{% endblock %}
+
+{% block content %}
+  <h1>{{ product.name }}</h1>
+  <p>{{ product.description }}</p>
+  <p><strong>Price:</strong> ${{ product.price }}</p>
+
+  <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+    <label for="size">Select size:</label>
+    <select id="size" name="size" required>
+      <option value="" disabled selected>Select a size</option>
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="large">Large</option>
+      <option value="xl">XL</option>
+    </select>
+    <br><br>
+    <button type="submit">Add to Cart</button>
+  </form>
+{% endblock %}

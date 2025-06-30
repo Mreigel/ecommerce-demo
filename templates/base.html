@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}My Flask Site{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('products_page') }}">Products</a>
+  </div>
+  <div class="nav-right">
+    <a href="{{ url_for('cart') }}">My Cart ({{ cart_item_count }})</a>
+    <a href="{{ url_for('signin') }}">Sign In</a>
+    <a href="{{ url_for('register') }}">Register</a>
+  </div>
+</nav>
+
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+
+</html>

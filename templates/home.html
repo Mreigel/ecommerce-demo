@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Home - Sample Store{% endblock %}
+{% block content %}
+<div class="hero">
+    <h1 class="tangerine-regular">Michael Reigel</h1>
+    <p class="tangerine-regular">Test Website</p>
+    <button onclick="window.location.href='/products'">Shop Now</button>
+</div>
+
+
+<section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="products-grid">
+        <div class="product-card">
+            <a href="{{ url_for('product_detail', product_id=1) }}">
+                <img src="{{ url_for('static', filename='product1.jpg') }}" alt="WOW">
+            </a>
+            <h3>Sample Product Name 1</h3>
+            <p class="price">Price: $25.99</p>
+            <button onclick="window.location.href='{{ url_for('add_to_cart', product_id=1) }}'">Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <a href="{{ url_for('product_detail', product_id=2) }}">
+                <img src="{{ url_for('static', filename='product2.png') }}" alt="T shirt 2">
+            </a>
+            <h3>Sample Product Name 2</h3>
+            <p class="price">Price: $79.99</p>
+            <button onclick="window.location.href='{{ url_for('add_to_cart', product_id=2) }}'">Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <a href="{{ url_for('product_detail', product_id=3) }}">
+                <img src="{{ url_for('static', filename='product3.png') }}" alt="T shirt 3">
+            </a>
+            <h3>Sample Product Name 3</h3>
+            <p class="price">Price: $49.99</p>
+            <button onclick="window.location.href='{{ url_for('add_to_cart', product_id=3) }}'">Add to Cart</button>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
