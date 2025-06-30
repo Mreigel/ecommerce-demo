@@ -17,7 +17,7 @@
             </a>
             <h3>Vintage Cotton White Tee</h3>
             <p class="price">Price: $25.99</p>
-            <button onclick="window.location.href='{{ url_for('add_to_cart', product_id=1) }}'">Add to Cart</button>
+            <button onclick="window.location.href='{{ url_for('product_detail', product_id=1) }}'">View Details</button>
         </div>
         <div class="product-card">
             <a href="{{ url_for('product_detail', product_id=2) }}">
@@ -25,7 +25,8 @@
             </a>
             <h3>Original Black Tee Heavy</h3>
             <p class="price">Price: $29.99</p>
-            <button onclick="window.location.href='{{ url_for('add_to_cart', product_id=2) }}'">Add to Cart</button>
+            <button onclick="window.location.href='{{ url_for('product_detail', product_id=2) }}'">View Details</button>
+
         </div>
         <div class="product-card">
             <a href="{{ url_for('product_detail', product_id=3) }}">
@@ -33,7 +34,7 @@
             </a>
             <h3>Youth Orange Tee</h3>
             <p class="price">Price: $19.99</p>
-            <button onclick="window.location.href='{{ url_for('add_to_cart', product_id=3) }}'">Add to Cart</button>
+            <button onclick="window.location.href='{{ url_for('product_detail', product_id=3) }}'">View Details</button>
         </div>
     </div>
 </section>
