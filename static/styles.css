@@ -7,45 +7,98 @@ body {
 
 nav {
     margin-bottom: 20px;
-    overflow: hidden; /* contain floats */
+    overflow: visible; /* allow dropdown to show outside nav */
+    position: relative;
+    z-index: 1000;
     border-bottom: 1px solid #d6cfc7; /* soft warm border */
     padding: 10px 0;
+    display: flex;            /* flex layout for easy alignment */
+    justify-content: space-between; /* left and right sections */
+    align-items: center;
 }
 
-/* Float left nav items */
+/* Left side nav items */
 .nav-left {
-    float: left;
+    display: flex;
+    gap: 20px;
 }
 
-/* Float right nav items */
+/* Right side nav items */
 .nav-right {
-    float: right;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    position: relative; /* for dropdown positioning */
 }
 
+/* Dropdown container wrapping the signin button and dropdown */
+.nav-signin {
+    position: relative;
+    display: inline-block;
+}
+
+/* Sign In button style */
+#signin-btn {
+    cursor: pointer;
+    padding: 5px 12px;
+    background: none;
+    border: 1px solid #6b5e4a;
+    border-radius: 4px;
+    color: #6b5e4a;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+/* Dropdown menu style */
+#signin-dropdown {
+    display: none; /* hidden by default */
+    position: absolute;
+    top: 110%; /* just below the button */
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 15px;
+    width: 260px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1100; /* above nav */
+    border-radius: 6px;
+}
+
+/* Links inside dropdown */
+#signin-dropdown div a {
+    color: #6b5e4a;
+    text-decoration: none;
+    margin: 0 5px;
+    font-size: 0.9em;
+}
+
+#signin-dropdown div a:hover {
+    text-decoration: underline;
+}
+
+/* Nav links base style */
 nav a {
     text-decoration: none;
-    margin-right: 15px;
     color: #6b5e4a; /* muted warm brown */
     font-weight: 600;
     transition: color 0.3s ease;
+    font-size: 1em;
 }
 
+/* Nav link hover effect */
 nav a:hover {
     color: #a1887f; /* lighter warm brown on hover */
 }
 
-/* Override margin on right nav links for spacing */
+/* Override margins specifically for right nav links */
 .nav-right a {
     margin-left: 15px;
     margin-right: 0;
 }
 
-/* Clearfix for nav so it wraps floated children */
-nav::after {
-    content: "";
-    display: table;
-    clear: both;
-}
+/* Clearfix no longer needed since flexbox is used */
+/* You can remove nav::after if present */
+
 
 .content {
     background: #ffffff; /* crisp white panel */

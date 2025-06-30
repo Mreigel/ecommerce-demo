@@ -12,6 +12,10 @@ products = {
     9: {"id": 9, "name": "Mystery Pack", "description": "Includes Shoes, Shirt, and Pants!", "price": 150.99, "image": "product9.jpg", "sizes": ["Out of Stock"]}
 }
 
+users = {
+    "testuser": {"password": "testpass"}  # Example user; replace with real user DB in production
+}
+
 app = Flask(__name__)
 app.secret_key = 'your_super_secret_key_here'  # Change this to a secure key
 
@@ -38,7 +42,7 @@ def signin():
 
 @app.route('/register')
 def register():
-    return "Register page coming soon!"
+    return render_template("sign-up.html")
 
 
 @app.route('/product/<int:product_id>')
@@ -47,6 +51,35 @@ def product_detail(product_id):
     if not product:
         return "Product not found", 404
     return render_template('product_detail.html', product=product)
+
+@app.route('/coming-soon')
+def coming_soon():
+    return render_template('coming_soon.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        user = users.get(username)
+        if user and user['password'] == password:
+            session['user'] = username
+            flash('Login successful!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Invalid username or password.', 'error')
+            return redirect(url_for('home'))
+    else:
+        return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    flash('Logged out.', 'info')
+    return redirect(url_for('home'))
 
 
 @app.route('/cart')
@@ -144,22 +177,27 @@ def remove_from_cart(product_id):
 def add_to_cart(product_id):
     size = request.form.get('size')
 
-    cart = session.get('cart', {})
+    product = products.get(product_id)
+    if not product:
+        return "Product not found", 404
 
+    if product.get('sizes') == ["Out of Stock"]:
+        return "Sorry, this product is out of stock.", 400
+
+    if not size or size == "Out of Stock":
+        return "Please select a valid size.", 400
+
+    cart = session.get('cart', {})
     product_id_str = str(product_id)
 
-    # Initialize as dict if not existing or old int format
     if product_id_str not in cart or not isinstance(cart[product_id_str], dict):
         cart[product_id_str] = {}
 
-    # Use a default size if none selected (optional)
-    if not size:
-        size = 'default'
-
     cart[product_id_str][size] = cart[product_id_str].get(size, 0) + 1
-
     session['cart'] = cart
+
     return redirect(request.referrer or url_for('products_page'))
+
 
 
 

@@ -12,7 +12,7 @@
       </a>
       <h3>{{ product.name }}</h3>
       <p class="price">${{ "%.2f"|format(product.price) }}</p>
-      <button onclick="window.location.href='{{ url_for('add_to_cart', product_id=product.id) }}'">Add to Cart</button>
+      <button onclick="window.location.href='{{ url_for('product_detail', product_id=product.id) }}'">View Details</button>
     </div>
     {% endfor %}
   </div>
