@@ -95,7 +95,6 @@ def cart():
             continue
 
         if isinstance(sizes_or_qty, dict):
-            # New format: dict of sizes
             for size, quantity in sizes_or_qty.items():
                 total_price = product['price'] * quantity
                 subtotal += total_price
@@ -110,7 +109,6 @@ def cart():
                     'total_price': total_price
                 })
         else:
-            # Old format: quantity as int, no size info
             quantity = sizes_or_qty
             total_price = product['price'] * quantity
             subtotal += total_price
@@ -128,7 +126,17 @@ def cart():
     shipping = 5.99 if cart_items else 0
     total = subtotal + shipping
 
-    return render_template('cart.html', cart_items=cart_items, subtotal=subtotal, shipping=shipping, total=total)
+    # Prepare recommended products — pick first 4 products NOT already in cart
+    cart_product_ids = {int(pid) for pid in cart.keys()}
+    recommended_products = [p for pid, p in products.items() if pid not in cart_product_ids][:4]
+
+    return render_template('cart.html',
+                           cart_items=cart_items,
+                           subtotal=subtotal,
+                           shipping=shipping,
+                           total=total,
+                           recommended_products=recommended_products)
+
 
 
 

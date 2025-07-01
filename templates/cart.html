@@ -1,55 +1,85 @@
 {% extends "base.html" %}
 {% block title %}Your Cart{% endblock %}
 {% block content %}
+
 <h2>Your Shopping Cart</h2>
 
-{% if cart_items %}
-  {% for item in cart_items %}
-    <div class="cart-item">
-      <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }}" class="cart-item-image">
-      <div class="cart-item-details">
-        <h3>{{ item.name }} (Size: {{ item.size }})</h3>
-        <p>Price: ${{ "%.2f"|format(item.price) }}</p>
-        <p>Total: ${{ "%.2f"|format(item.total_price) }}</p>
+<div class="cart-container" style="display: flex; gap: 20px;">
 
-        <p>Quantity: {{ item.quantity }}</p>
+  <div class="cart-left" style="flex: 3; min-width: 0;">
+    {% if cart_items %}
+      {% for item in cart_items %}
+        <div class="cart-item" style="display: flex; margin-bottom: 20px; gap: 15px;">
+          <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }}" class="cart-item-image" style="width: 120px; height: auto;">
+          <div class="cart-item-details" style="flex-grow: 1;">
+            <h3>{{ item.name }} (Size: {{ item.size }})</h3>
+            <p>Price: ${{ "%.2f"|format(item.price) }}</p>
+            <p>Total: ${{ "%.2f"|format(item.total_price) }}</p>
 
-        <form method="POST" action="{{ url_for('update_cart', product_id=item.id) }}" style="display:inline;">
-          <input type="hidden" name="size" value="{{ item.size }}">
-          <input type="hidden" name="action" value="decrease">
-          <button type="submit">-</button>
-        </form>
+            <form method="POST" action="{{ url_for('update_cart', product_id=item.id) }}" style="display: inline-block; margin-right: 8px;">
+              <input type="hidden" name="size" value="{{ item.size }}">
+              <input type="hidden" name="action" value="decrease">
+              <button type="submit">−</button>
+            </form>
 
-        <form method="POST" action="{{ url_for('update_cart', product_id=item.id) }}" style="display:inline;">
-          <input type="hidden" name="size" value="{{ item.size }}">
-          <input type="hidden" name="action" value="increase">
-          <button type="submit">+</button>
-        </form>
+            <form method="POST" action="{{ url_for('update_cart', product_id=item.id) }}" style="display: inline-block; margin-right: 8px;">
+              <input type="hidden" name="size" value="{{ item.size }}">
+              <input type="hidden" name="action" value="increase">
+              <button type="submit">+</button>
+            </form>
 
-        <form method="POST" action="{{ url_for('remove_from_cart', product_id=item.id) }}" style="display:inline;">
-          <input type="hidden" name="size" value="{{ item.size }}">
-          <button type="submit">Remove</button>
-        </form>
+            <form method="POST" action="{{ url_for('remove_from_cart', product_id=item.id) }}" style="display: inline-block;">
+              <input type="hidden" name="size" value="{{ item.size }}">
+              <button type="submit">Remove</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+
+      <hr>
+      <div class="cart-summary">
+        <p>Subtotal: ${{ "%.2f"|format(subtotal) }}</p>
+        <p>Shipping: ${{ "%.2f"|format(shipping) }}</p>
+        <h3>Total: ${{ "%.2f"|format(total) }}</h3>
       </div>
+
+      <form action="{{ url_for('checkout') }}" method="get" style="margin-bottom: 10px;">
+        <button type="submit" class="btn-primary">Checkout</button>
+      </form>
+
+      <form action="{{ url_for('products_page') }}" method="get">
+        <button type="submit" class="btn-secondary">Continue Shopping</button>
+      </form>
+
+    {% else %}
+      <p>Your cart is empty.</p>
+      <form action="{{ url_for('products_page') }}" method="get">
+        <button type="submit" class="btn-secondary">Start Shopping</button>
+      </form>
+    {% endif %}
+  </div> <!-- /.cart-left -->
+
+  <div class="cart-right" style="flex: 1; min-width: 250px; border-left: 1px solid #ddd; padding-left: 15px;">
+    <h3>You might like</h3>
+    <div class="recommended-products">
+      {% for product in recommended_products %}
+        <div class="recommended-item" style="margin-bottom: 15px;">
+          <a href="{{ url_for('product_detail', product_id=product.id) }}">
+            <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" style="width: 100%; height: auto; max-width: 200px; border-radius: 8px;">
+            <p>{{ product.name }}</p>
+            <p>${{ "%.2f"|format(product.price) }}</p>
+          </a>
+          <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+            <input type="hidden" name="size" value="{{ product.sizes[0] }}">
+            <button type="submit" class="btn-primary" style="width: 100%;">Add to Cart</button>
+          </form>
+        </div>
+      {% else %}
+        <p>No recommendations available.</p>
+      {% endfor %}
     </div>
-  {% endfor %}
+  </div> <!-- /.cart-right -->
 
-  <hr>
-  <div class="cart-summary">
-    <p>Subtotal: ${{ "%.2f"|format(subtotal) }}</p>
-    <p>Shipping: ${{ "%.2f"|format(shipping) }}</p>
-    <h3>Total: ${{ "%.2f"|format(total) }}</h3>
-  </div>
-
-  <form action="{{ url_for('checkout') }}" method="get">
-    <button type="submit">Checkout</button>
-  </form>
-
-  <a href="{{ url_for('products_page') }}">Continue Shopping</a>
-
-{% else %}
-  <p>Your cart is empty.</p>
-  <a href="{{ url_for('products_page') }}">Start Shopping</a>
-{% endif %}
+</div> <!-- /.cart-container -->
 
 {% endblock %}

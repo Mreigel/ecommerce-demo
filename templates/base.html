@@ -89,6 +89,24 @@
   });
 </script>
 
+<script>
+  const hero = document.getElementById("hero-banner");
+  const images = [
+    "/static/images/heroimage1.jpg",
+    "/static/images/heroimage2.jpg",
+    "/static/images/heroimage3.jpg"
+  ];
+  let index = 0;
+
+  function changeHeroBackground() {
+    hero.style.backgroundImage = `url('${images[index]}')`;
+    index = (index + 1) % images.length;
+  }
+
+  changeHeroBackground(); // Initial image
+  setInterval(changeHeroBackground, 10000); // Change every 5 seconds
+</script>
+
 </body>
 
 </html>
