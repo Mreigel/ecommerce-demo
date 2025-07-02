@@ -9,26 +9,30 @@ body {
 }
 
 a {
-  color: #6b5e4a;
+  color: #e2e6ea;
   text-decoration: none;
   transition: color 0.3s ease;
   font-weight: 600;
 }
 
 a:hover {
-  color: #a1887f;
+  color: #bb86fc;
 }
 
-/* Navigation */
+/* Navigation (fixed gray, not affected by dark mode) */
 nav {
   margin-bottom: 20px;
   position: relative;
   z-index: 1000;
-  border-bottom: 1px solid #d6cfc7; /* soft warm border */
-  padding: 10px 0;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  background-color: #6c757d !important;  /* lock to gray */
+  color: white !important;
+  border-bottom: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15); /* optional subtle depth */
 }
 
 .nav-left,
@@ -42,26 +46,36 @@ nav {
   position: relative;
 }
 
+/* Nav links forced white */
+nav a {
+  color: white !important;
+}
+
+nav a:hover {
+  color: #e2e6ea !important;
+}
+
 /* Sign In Dropdown */
 .nav-signin {
   position: relative;
   display: inline-block;
 }
 
+
 #signin-btn {
   cursor: pointer;
   padding: 6px 14px;
   background: none;
-  border: 1px solid #6b5e4a;
+  border: 1px solid #e2e6ea;
   border-radius: 6px;
-  color: #6b5e4a;
+  color: white;
   font-weight: 600;
   font-size: 1rem;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #signin-btn:hover {
-  background-color: #6b5e4a;
+  background-color: #e2e6ea;
   color: white;
 }
 
@@ -80,7 +94,7 @@ nav {
 }
 
 #signin-dropdown div a {
-  color: #6b5e4a;
+  color: #6c757d; /* readable neutral gray */
   text-decoration: none;
   font-size: 0.9rem;
   margin: 0 5px;
@@ -88,7 +102,9 @@ nav {
 
 #signin-dropdown div a:hover {
   text-decoration: underline;
+  color: #495057;
 }
+
 
 /* Content Panel */
 .content {
@@ -96,7 +112,7 @@ nav {
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  color: #4a4031;
+  color: #f5f5f5;
 }
 
 /* Hero Section */
@@ -161,7 +177,7 @@ nav {
   font-weight: 400 !important;
   font-size: 4.375rem !important;
   letter-spacing: 1px !important;
-  color: #6b5e4a !important;
+  color: #e2e6ea !important;
 }
 
 .tangerine-bold {
@@ -169,7 +185,7 @@ nav {
   font-weight: 700 !important;
   font-size: 5.25rem !important;
   letter-spacing: 1.5px !important;
-  color: #6b5e4a !important;
+  color: #e2e6ea !important;
 }
 
 /* Buttons - Primary & Secondary */
@@ -220,7 +236,7 @@ form label {
   display: block;
   font-weight: 600;
   margin-bottom: 8px;
-  color: #4a4031;
+  color: #f5f5f5;
 }
 
 select,
@@ -235,12 +251,13 @@ textarea {
   border: 1px solid #e2dcd3;
   border-radius: 8px;
   background-color: white;
-  color: #4a4031;
+  color: #333;  /* readable on light background */
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 20px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 
 select {
   cursor: pointer;
@@ -251,7 +268,7 @@ select:focus,
 input:focus,
 textarea:focus {
   outline: none;
-  border-color: #a1887f;
+  border-color: #bb86fc;
   box-shadow: 0 0 8px rgba(161, 136, 127, 0.5);
 }
 
@@ -272,7 +289,7 @@ textarea:focus {
   padding: 25px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
   text-align: center;
-  color: #4a4031;
+  color: #f5f5f5;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -289,7 +306,7 @@ textarea:focus {
 .price {
   font-weight: 700;
   margin-bottom: 24px;
-  color: #6b5e4a;
+  color: #e2e6ea;
 }
 
 .product-card button {
@@ -343,7 +360,7 @@ textarea:focus {
   padding: 20px;
   align-items: center;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-  color: #4a4031;
+  color: #f5f5f5;
 }
 
 .cart-item-image {
@@ -373,7 +390,7 @@ textarea:focus {
 }
 
 .cart-item button:hover {
-  background-color: #6b5e4a;
+  background-color: #e2e6ea;
 }
 
 .cart-item input[type="number"] {
@@ -384,23 +401,23 @@ textarea:focus {
   border-radius: 8px;
   text-align: center;
   margin-right: 12px;
-  color: #4a4031;
+  color: #f5f5f5;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: border-color 0.3s ease;
 }
 
 .cart-item input[type="number"]:focus {
-  border-color: #a1887f;
+  border-color: #bb86fc;
   outline: none;
 }
 
 /* Cart Summary */
 .cart-summary {
-  border-top: 2px solid #a1887f;
+  border-top: 2px solid #bb86fc;
   padding-top: 20px;
   margin-top: 30px;
   font-weight: 700;
-  color: #6b5e4a;
+  color: #e2e6ea;
 }
 
 .cart-summary button {
@@ -415,14 +432,14 @@ textarea:focus {
 .cart-summary a {
   display: inline-block;
   margin-top: 20px;
-  color: #a1887f;
+  color: #bb86fc;
   font-weight: 600;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .cart-summary a:hover {
-  color: #6b5e4a;
+  color: #e2e6eae2e6ea;
 }
 
 /* Recommended Products */
@@ -432,7 +449,7 @@ textarea:focus {
   border: 1px solid #e2dcd3;
   border-radius: 12px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-  color: #4a4031;
+  color: #f5f5f5;
 }
 
 .recommended-item {
@@ -480,4 +497,128 @@ textarea:focus {
 
 .mb-20 {
   margin-bottom: 20px;
+}
+
+.ad-banner {
+  background-color: #f3f3f3;
+  padding: 20px 30px;
+  border: 1px dashed #bbb;
+  margin-bottom: 2rem;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.ad-banner .ad-content {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+}
+
+.flash {
+  background-color: #333;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: fadeout 4s ease forwards;
+}
+
+.flash-success {
+  background-color: #28a745;
+}
+
+@keyframes fadeout {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+body.dark-mode .content,
+body.dark-mode .product-card,
+body.dark-mode .cart-item,
+body.dark-mode .cart-right,
+body.dark-mode .ad-banner {
+  background-color: #1c1c1c !important;
+  color: #f5f5f5 !important;
+  border-color: #333 !important;
+}
+
+/* === Force readable text for light mode === */
+body:not(.dark-mode) .product-card,
+body:not(.dark-mode) .product-card h3,
+body:not(.dark-mode) .price,
+body:not(.dark-mode) .cart-item,
+body:not(.dark-mode) .cart-item-details,
+body:not(.dark-mode) .recommended-item p,
+body:not(.dark-mode) .content,
+body:not(.dark-mode) .cart-right {
+  color: #333 !important;
+}
+
+/* === Fix sign-in dropdown readability in light mode === */
+#signin-dropdown,
+#signin-dropdown label,
+#signin-dropdown input,
+#signin-dropdown select,
+#signin-dropdown textarea,
+#signin-dropdown button,
+#signin-dropdown div a {
+  color: #333 !important;
+  background-color: white !important;
+  border-color: #ccc !important;
+}
+
+#signin-dropdown label {
+  display: block;
+  margin-bottom: 2px !important;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+
+#signin-dropdown input {
+  display: block;
+  margin-top: 0 !important;
+  margin-bottom: 3px !important;
+  padding: 6px 10px !important;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+
+#signin-dropdown button[type="submit"] {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* <-- added shadow */
+}
+
+#signin-dropdown button[type="submit"]:hover {
+  background-color: #495057;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2); /* deeper shadow on hover */
 }

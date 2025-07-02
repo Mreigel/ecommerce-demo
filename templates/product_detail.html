@@ -1,27 +1,32 @@
-<a href="{{ url_for('products_page') }}">Products</a>
 {% extends "base.html" %}
-
 {% block title %}{{ product.name }} - Details{% endblock %}
 
 {% block content %}
+
+<a href="{{ url_for('products_page') }}">← Back to Products</a>
+
+<div class="content" style="max-width: 800px; margin: 2rem auto;">
   <h1>{{ product.name }}</h1>
 
-  <!-- Product image -->
-  <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" style="max-width: 300px;">
+  <img class="product-image" src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
 
   <p>{{ product.description }}</p>
-  <p><strong>Price:</strong> ${{ product.price }}</p>
+  <p class="price">${{ "%.2f"|format(product.price) }}</p>
 
-<form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
-    <label for="size">Select size:</label>
-    <select id="size" name="size" required>
-      <option value="" disabled selected>Select a size</option>
-      {% for size_option in product.sizes %}
-        <option value="{{ size_option }}">{{ size_option }}</option>
-      {% endfor %}
-    </select>
-    <br><br>
-    <button type="submit">Add to Cart</button>
-</form>
+  {% if product.sizes[0] == "Out of Stock" %}
+    <p style="color: red; font-weight: bold;">Out of stock</p>
+  {% else %}
+    <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+      <label for="size">Select size:</label>
+      <select id="size" name="size" required>
+        <option value="" disabled selected>Select a size</option>
+        {% for size_option in product.sizes %}
+          <option value="{{ size_option }}">{{ size_option }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn-primary" style="margin-top: 1rem;">Add to Cart</button>
+    </form>
+  {% endif %}
+</div>
 
 {% endblock %}

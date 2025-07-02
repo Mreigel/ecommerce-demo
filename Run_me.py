@@ -181,6 +181,8 @@ def remove_from_cart(product_id):
     return redirect(url_for('cart'))
 
 
+from flask import flash  # Add this at the top if not already
+
 @app.route('/add_to_cart/<int:product_id>', methods=['POST'])
 def add_to_cart(product_id):
     size = request.form.get('size')
@@ -203,6 +205,9 @@ def add_to_cart(product_id):
 
     cart[product_id_str][size] = cart[product_id_str].get(size, 0) + 1
     session['cart'] = cart
+
+    # ✅ FLASH MESSAGE HERE:
+    flash(f"{product['name']} ({size}) added to cart.", "success")
 
     return redirect(request.referrer or url_for('products_page'))
 
