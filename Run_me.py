@@ -1,23 +1,28 @@
-from flask import Flask, render_template, session, redirect, request, url_for
-
-products = {
-    1: {"id": 1, "name": "Cotton Tee", "description": "Comfortable cotton t-shirt", "price": 19.99, "image": "product1.jpg", "sizes": ["S", "M", "L", "XL"]},
-    2: {"id": 2, "name": "Black Heavy Duty Tee", "description": "Stylish plain black tee", "price": 24.99, "image": "product2.jpg", "sizes": ["S", "M", "L", "XL"]},
-    3: {"id": 3, "name": "Kid's Orange Tee", "description": "Vibrant and stylish", "price": 29.99, "image": "product3.jpg", "sizes": ["S", "M", "L"]},
-    4: {"id": 4, "name": "Men's Sun Hat", "description": "Authentic Sun Hat", "price": 19.99, "image": "product4.jpg", "sizes": ["Out of Stock"]},
-    5: {"id": 5, "name": "Woman's Summer Hat", "description": "Woman's Summer Hat", "price": 24.99, "image": "product5.jpg", "sizes": ["Out of Stock"]},
-    6: {"id": 6, "name": "Mens White Tee", "description": "Mens White Tee", "price": 9.99, "image": "product6.jpg", "sizes": ["S", "M", "L", "XL"]},
-    7: {"id": 7, "name": "Men's Swim Trunks", "description": "Mens Summer Trunks", "price": 19.99, "image": "product7.jpg", "sizes": ["M", "L", "XL"]},
-    8: {"id": 8, "name": "Woman's Swim Suit", "description": "Woman's Swim Suit 2 Piece", "price": 22.99, "image": "product8.jpg", "sizes": ["S", "M", "L"]},
-    9: {"id": 9, "name": "Mystery Pack", "description": "Includes Shoes, Shirt, and Pants!", "price": 150.99, "image": "product9.jpg", "sizes": ["Out of Stock"]}
-}
-
-users = {
-    "testuser": {"password": "testpass"}  # Example user; replace with real user DB in production
-}
+from flask import Flask, render_template, session, redirect, request, url_for, flash
+from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
-app.secret_key = 'your_super_secret_key_here'  # Change this to a secure key
+app.secret_key = 'your_super_secret_key_here'
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'store.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    image = db.Column(db.String(120))
+    sizes = db.Column(db.String(120))  # Stored like "S,M,L"
+
+
+users = {
+    "testuser": {"password": "testpass"}
+}
 
 
 @app.route('/')
@@ -32,6 +37,7 @@ def about():
 
 @app.route('/products')
 def products_page():
+    products = Product.query.all()
     return render_template('products.html', products=products)
 
 
@@ -44,13 +50,6 @@ def signin():
 def register():
     return render_template("sign-up.html")
 
-
-@app.route('/product/<int:product_id>')
-def product_detail(product_id):
-    product = products.get(product_id)
-    if not product:
-        return "Product not found", 404
-    return render_template('product_detail.html', product=product)
 
 @app.route('/coming-soon')
 def coming_soon():
@@ -71,8 +70,7 @@ def login():
         else:
             flash('Invalid username or password.', 'error')
             return redirect(url_for('home'))
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
 
 @app.route('/logout')
@@ -82,6 +80,16 @@ def logout():
     return redirect(url_for('home'))
 
 
+@app.route('/product/<int:product_id>')
+def product_detail(product_id):
+    product = db.session.get(Product, product_id)  # Modern syntax (avoids LegacyAPIWarning)
+    if not product:
+        return "Product not found", 404
+
+    product.sizes = product.sizes.split(',') if product.sizes else []
+    return render_template('product_detail.html', product=product)
+
+
 @app.route('/cart')
 def cart():
     cart = session.get('cart', {})
@@ -89,35 +97,34 @@ def cart():
     subtotal = 0
 
     for product_id_str, sizes_or_qty in cart.items():
-        product_id = int(product_id_str)
-        product = products.get(product_id)
+        product = Product.query.get(int(product_id_str))
         if not product:
             continue
 
         if isinstance(sizes_or_qty, dict):
             for size, quantity in sizes_or_qty.items():
-                total_price = product['price'] * quantity
+                total_price = product.price * quantity
                 subtotal += total_price
                 cart_items.append({
-                    'id': product_id,
-                    'name': product['name'],
-                    'description': product['description'],
-                    'price': product['price'],
-                    'image': product['image'],
+                    'id': product.id,
+                    'name': product.name,
+                    'description': product.description,
+                    'price': product.price,
+                    'image': product.image,
                     'size': size,
                     'quantity': quantity,
                     'total_price': total_price
                 })
         else:
             quantity = sizes_or_qty
-            total_price = product['price'] * quantity
+            total_price = product.price * quantity
             subtotal += total_price
             cart_items.append({
-                'id': product_id,
-                'name': product['name'],
-                'description': product['description'],
-                'price': product['price'],
-                'image': product['image'],
+                'id': product.id,
+                'name': product.name,
+                'description': product.description,
+                'price': product.price,
+                'image': product.image,
                 'size': None,
                 'quantity': quantity,
                 'total_price': total_price
@@ -126,9 +133,8 @@ def cart():
     shipping = 5.99 if cart_items else 0
     total = subtotal + shipping
 
-    # Prepare recommended products — pick first 4 products NOT already in cart
     cart_product_ids = {int(pid) for pid in cart.keys()}
-    recommended_products = [p for pid, p in products.items() if pid not in cart_product_ids][:4]
+    recommended_products = Product.query.filter(~Product.id.in_(cart_product_ids)).limit(4).all()
 
     return render_template('cart.html',
                            cart_items=cart_items,
@@ -138,11 +144,30 @@ def cart():
                            recommended_products=recommended_products)
 
 
+@app.route('/add_to_cart/<int:product_id>', methods=['POST'])
+def add_to_cart(product_id):
+    size = request.form.get('size')
+    product = Product.query.get(product_id)
+    if not product:
+        return "Product not found", 404
 
+    if product.sizes == "Out of Stock":
+        return "Sorry, this product is out of stock.", 400
 
-@app.route('/checkout')
-def checkout():
-    return "<h2>Checkout Coming Soon!</h2><p>Stay tuned for this feature.</p>"
+    if not size or size == "Out of Stock":
+        return "Please select a valid size.", 400
+
+    cart = session.get('cart', {})
+    product_id_str = str(product_id)
+
+    if product_id_str not in cart or not isinstance(cart[product_id_str], dict):
+        cart[product_id_str] = {}
+
+    cart[product_id_str][size] = cart[product_id_str].get(size, 0) + 1
+    session['cart'] = cart
+
+    flash(f"{product.name} ({size}) added to cart.", "success")
+    return redirect(request.referrer or url_for('products_page'))
 
 
 @app.route('/update_cart/<product_id>', methods=['POST'])
@@ -159,7 +184,7 @@ def update_cart(product_id):
             cart[product_id_str][size] -= 1
             if cart[product_id_str][size] <= 0:
                 del cart[product_id_str][size]
-                if not cart[product_id_str]:  # Remove product if no sizes left
+                if not cart[product_id_str]:
                     del cart[product_id_str]
 
     session['cart'] = cart
@@ -181,37 +206,15 @@ def remove_from_cart(product_id):
     return redirect(url_for('cart'))
 
 
-from flask import flash  # Add this at the top if not already
-
-@app.route('/add_to_cart/<int:product_id>', methods=['POST'])
-def add_to_cart(product_id):
-    size = request.form.get('size')
-
-    product = products.get(product_id)
-    if not product:
-        return "Product not found", 404
-
-    if product.get('sizes') == ["Out of Stock"]:
-        return "Sorry, this product is out of stock.", 400
-
-    if not size or size == "Out of Stock":
-        return "Please select a valid size.", 400
-
-    cart = session.get('cart', {})
-    product_id_str = str(product_id)
-
-    if product_id_str not in cart or not isinstance(cart[product_id_str], dict):
-        cart[product_id_str] = {}
-
-    cart[product_id_str][size] = cart[product_id_str].get(size, 0) + 1
-    session['cart'] = cart
-
-    # ✅ FLASH MESSAGE HERE:
-    flash(f"{product['name']} ({size}) added to cart.", "success")
-
-    return redirect(request.referrer or url_for('products_page'))
+@app.route('/checkout')
+def checkout():
+    return "<h2>Checkout Coming Soon!</h2><p>Stay tuned for this feature.</p>"
 
 
+@app.route('/test-products')
+def test_products():
+    products = Product.query.all()
+    return '<br>'.join([f"{p.id}: {p.name} - ${p.price}" for p in products])
 
 
 @app.context_processor
@@ -227,4 +230,23 @@ def cart_item_count():
 
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+        if not Product.query.first():
+            product_data = [
+                {"name": "Cotton Tee", "description": "Comfortable cotton t-shirt", "price": 19.99, "image": "product1.jpg", "sizes": "S,M,L,XL"},
+                {"name": "Black Heavy Duty Tee", "description": "Stylish plain black tee", "price": 24.99, "image": "product2.jpg", "sizes": "S,M,L,XL"},
+                {"name": "Kid's Orange Tee", "description": "Vibrant and stylish", "price": 29.99, "image": "product3.jpg", "sizes": "S,M,L"},
+                {"name": "Men's Sun Hat", "description": "Authentic Sun Hat", "price": 19.99, "image": "product4.jpg", "sizes": "Out of Stock"},
+                {"name": "Woman's Summer Hat", "description": "Woman's Summer Hat", "price": 24.99, "image": "product5.jpg", "sizes": "Out of Stock"},
+                {"name": "Mens White Tee", "description": "Mens White Tee", "price": 9.99, "image": "product6.jpg", "sizes": "S,M,L,XL"},
+                {"name": "Men's Swim Trunks", "description": "Mens Summer Trunks", "price": 19.99, "image": "product7.jpg", "sizes": "M,L,XL"},
+                {"name": "Woman's Swim Suit", "description": "Woman's Swim Suit 2 Piece", "price": 22.99, "image": "product8.jpg", "sizes": "S,M,L"},
+                {"name": "Mystery Pack", "description": "Includes Shoes, Shirt, and Pants!", "price": 150.99, "image": "product9.jpg", "sizes": "Out of Stock"},
+            ]
+            for p in product_data:
+                db.session.add(Product(**p))
+            db.session.commit()
+            print("✅ Seeded products into database.")
+
     app.run(debug=True)
