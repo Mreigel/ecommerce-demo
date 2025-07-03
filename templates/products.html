@@ -12,7 +12,7 @@
 
 <!-- 🔹 Product Grid -->
 <section class="products-grid">
-  {% for product in products.values() %}
+  {% for product in products %}
     <div class="product-card">
       <a href="{{ url_for('product_detail', product_id=product.id) }}">
         <img src="{{ url_for('static', filename='product' ~ product.id ~ '.jpg') }}" alt="{{ product.name }}">

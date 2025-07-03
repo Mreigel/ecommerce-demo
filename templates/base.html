@@ -34,9 +34,11 @@
 <button id="theme-toggle" style="margin-left: 20px;">🌓</button>
 
     <div class="nav-signin" style="position: relative;">
-      {% if session.get('user') %}
-        <span>Welcome, {{ session.get('user') }}</span>
-        <a href="{{ url_for('logout') }}" style="margin-left: 10px;">Logout</a>
+      {% if current_user %}
+
+        <a href="{{ url_for('account') }}">{{ current_user.username }}</a>
+<a href="{{ url_for('logout') }}" style="margin-left: 10px;">Logout</a>
+
       {% else %}
         <button id="signin-btn" type="button" style="cursor:pointer; padding: 5px 10px;">
           Sign In ▼
@@ -54,9 +56,10 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
             z-index: 1000;
           ">
-          <form method="POST" action="{{ url_for('login') }}">
-            <label for="username">Username</label><br>
-            <input type="text" id="username" name="username" required style="width: 100%; padding: 5px; margin-bottom: 10px;"><br>
+          <form method="POST" action="{{ url_for('login_from_dropdown') }}">
+            <label for="username">Username or Email</label><br>
+            <input type="text" id="username" name="username" placeholder="Enter username or email" required>
+
 
             <label for="password">Password</label><br>
             <input type="password" id="password" name="password" required style="width: 100%; padding: 5px; margin-bottom: 10px;"><br>

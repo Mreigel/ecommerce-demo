@@ -7,18 +7,35 @@
 
 <div class="content" style="max-width: 800px; margin: 2rem auto;">
   <h1>{{ product.name }}</h1>
+<style>
+  .product-label {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .product-select {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 5px;
+    width: 100%;
+  }
+</style>
 
   <img class="product-image" src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
 
   <p>{{ product.description }}</p>
   <p class="price">${{ "%.2f"|format(product.price) }}</p>
 
-  {% if product.sizes[0] == "Out of Stock" %}
+  {% if not product.sizes %}
     <p style="color: red; font-weight: bold;">Out of stock</p>
   {% else %}
     <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
-      <label for="size">Select size:</label>
-      <select id="size" name="size" required>
+      <label for="size" class="product-label">Select size:</label>
+      <select id="size" name="size" required class="product-select">
         <option value="" disabled selected>Select a size</option>
         {% for size_option in product.sizes %}
           <option value="{{ size_option }}">{{ size_option }}</option>

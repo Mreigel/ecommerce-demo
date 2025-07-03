@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+  <h2>Checkout</h2>
+
+  {% if cart_items %}
+    <h3>Your Items</h3>
+    <ul>
+      {% for item in cart_items %}
+        <li>
+          {{ item.name }} ({{ item.size }}) - Qty: {{ item.quantity }} — ${{ "%.2f"|format(item.total_price) }}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <h3>Shipping Info</h3>
+    <p>{{ current_user.first_name }} {{ current_user.last_name }}</p>
+    <p>{{ current_user.street }}</p>
+    <p>{{ current_user.city }}, {{ current_user.state }} {{ current_user.zip }}</p>
+    <p>{{ current_user.country }}</p>
+
+    <form method="POST">
+      <p><strong>Total: ${{ "%.2f"|format(total) }}</strong></p>
+      <button type="submit" class="btn-primary">Place Order</button>
+    </form>
+  {% else %}
+    <p>Your cart is empty.</p>
+  {% endif %}
+{% endblock %}
