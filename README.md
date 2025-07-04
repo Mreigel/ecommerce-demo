@@ -1,10 +1,10 @@
-# ecommerce-demo  
-*Web Development Fundamentals Portfolio Project*
+# Ecommerce-demo  
+*Custom Web Design Solutions*
 
 ---
 
 ## About  
-This project is a sample website showcasing my abilities in HTML, CSS, and JavaScript. It features responsive design principles, clean code, and modern web practices. It serves as a portfolio piece to demonstrate my readiness for a role within web development.
+This project is a clean and professional website template designed for a web development agency or freelance team. Built to represent our team's custom web design skills, this site highlights our ability to deliver modern, responsive websites from concept to deployment. The goal is to provide a strong, modern front for prospective clients looking for custom website solutions.
 
 ---
 
@@ -17,18 +17,25 @@ This project is a sample website showcasing my abilities in HTML, CSS, and JavaS
 ---
 
 ## Running Locally  
-No backend needed. Simply clone the repo and open `index.html` in your browser:
+No backend needed. To run the latest version locally, be sure to check out the `Website` branch:
 
 ```bash
 git clone https://github.com/Mreigel/ecommerce-demo
 cd ecommerce-demo
-# open index.html in browser
+git checkout Website
+# open index.html in your browser
 ```
 
-## Contact
-Michael Reigel
-[LinkedIn](https://www.linkedin.com/in/mreigel/)
-[GitHub](https://github.com/Mreigel)
+> **Note:** The `Website` branch contains the active portfolio project.  
+> Branches like `WebDev` are used for earlier demos or active development.
 
+---
 
+## Contact  
+**Michael Reigel**  
+[LinkedIn](https://www.linkedin.com/in/mreigel/)  
+[GitHub](https://github.com/Mreigel)  
 
+**Joe Lima**  
+[LinkedIn](https://www.linkedin.com/in/joe-lima/)  
+[GitHub](https://github.com/jlima9001)
