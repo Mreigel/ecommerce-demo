@@ -1,22 +1,44 @@
 {% extends "base.html" %}
 {% block title %}About Us{% endblock %}
 {% block content %}
-  <h2>About This Project</h2>
-  <p>
-    Building this e-commerce website has been a valuable learning experience in full-stack development.
-    It allowed me to integrate frontend design with backend logic using Flask, manage user sessions,
-    and handle dynamic content rendering with Jinja2 templates.
-  </p>
-  <p>
-    This project emphasizes simplicity and clarity — providing users with a clean interface and easy navigation,
-    which I believe makes it effective for engaging shoppers without overwhelming them.
-  </p>
-  <p>
-    Additionally, working through challenges such as responsive layouts and session management helped me understand
-    practical web development skills and the importance of user experience design.
-  </p>
-  <p>
-    Overall, this project serves as a solid foundation for building more advanced web applications,
-    showcasing how technology and design come together to create seamless online experiences.
-  </p>
+
+<!-- Hero Section -->
+<section class="hero-banner">
+  <div class="hero-text">
+    <h1>Your Vision. Our Code.</h1>
+    <p>We turn ideas into secure, scalable websites that deliver results.</p>
+  </div>
+</section>
+
+<!-- Info Cards -->
+<section class="about-grid">
+  <div class="info-card">
+    <h3>Who We Are</h3>
+    <p>We’re a growing web development team with backgrounds in cybersecurity, IT administration, and software deployment. Our team is currently expanding, bringing in developers with diverse experience—including former military IT specialists—who understand discipline and structure in every build.</p>
+  </div>
+
+  <div class="info-card">
+    <h3>Tech Stack</h3>
+    <p>This platform is built using Python and Flask, but that’s just the start. We’re comfortable with HTML/CSS, JavaScript, SQL, and third-party integrations to build modern, performant websites tailored to your needs.</p>
+  </div>
+
+  <div class="info-card">
+    <h3>Client Focused</h3>
+    <p>We don’t just build websites—we build what *you* want. Your brand, your features, your vision. Every site is custom-built, and we don’t stop until you’re satisfied with the product.</p>
+  </div>
+</section>
+
+<!-- Optional Quote/Testimonial -->
+<section class="quote-section">
+  <blockquote>
+    “This site is just one example of our capabilities. Whatever you envision, we can bring it to life.”
+  </blockquote>
+</section>
+
+<!-- CTA Box -->
+<section class="cta-box">
+  <h3>Ready to build something?</h3>
+  <p>Get in touch with us today to start your custom project. [Insert contact method or form here]</p>
+</section>
+
 {% endblock %}

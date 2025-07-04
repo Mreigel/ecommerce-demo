@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Join the Team{% endblock %}
+
+{% block content %}
+<section class="join-container">
+  <h2>Join the Team</h2>
+  <p>We're always looking for passionate developers. Fill out the form below to apply.</p>
+
+  <form method="POST" enctype="multipart/form-data" class="join-form">
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" name="name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" name="email" required>
+    </div>
+
+    <div class="form-group">
+      <label for="github">GitHub or Code Repo</label>
+      <input type="url" name="github" placeholder="https://github.com/yourname" required>
+    </div>
+
+    <div class="form-group">
+      <label for="portfolio">Portfolio Website</label>
+      <input type="url" name="portfolio" placeholder="https://yourportfolio.com" required>
+    </div>
+
+    <div class="form-group">
+      <label for="resume">Upload Resume (PDF only)</label>
+      <input type="file" name="resume" accept=".pdf" required>
+    </div>
+
+    <button type="submit" class="btn-primary">Submit Application</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,47 +1,44 @@
 {% extends "base.html" %}
-{% block title %}Home - Sample Store{% endblock %}
+{% block title %}Home - Web Dev Team{% endblock %}
+
 {% block content %}
 <div class="hero" id="hero-banner">
   <div class="hero-content">
-    <h1 class="tangerine-regular">Summer Collection Coming Soon</h1>
-    <p class="tangerine-regular">Company name</p>
-    <!-- Optional button -->
-    <button class="btn-primary" onclick="window.location.href='/products'">Shop Now</button>
+    <h1 class="tangerine-regular">Custom Web Design & Development</h1>
+    <p class="tangerine-regular">[Put your company name or team name here]</p>
+    <button class="btn-primary" onclick="window.location.href='/projects'">View Projects</button>
   </div>
 </div>
 
-
 <section class="featured-products">
-    <h2>Featured Products</h2>
-    <div class="products-grid">
-        <div class="product-card">
-            <a href="{{ url_for('product_detail', product_id=1) }}">
-                <img src="{{ url_for('static', filename='product1.jpg') }}" alt="WOW">
-            </a>
-            <h3>Vintage Cotton White Tee</h3>
-            <p class="price">Price: $25.99</p>
-            <button onclick="window.location.href='{{ url_for('product_detail', product_id=1) }}'">View Details</button>
-        </div>
-        <div class="product-card">
-            <a href="{{ url_for('product_detail', product_id=2) }}">
-                <img src="{{ url_for('static', filename='product2.jpg') }}" alt="T shirt 2">
-            </a>
-            <h3>Original Black Tee Heavy</h3>
-            <p class="price">Price: $29.99</p>
-            <button onclick="window.location.href='{{ url_for('product_detail', product_id=2) }}'">View Details</button>
-
-        </div>
-        <div class="product-card">
-            <a href="{{ url_for('product_detail', product_id=3) }}">
-                <img src="{{ url_for('static', filename='product3.jpg') }}" alt="T shirt 3">
-            </a>
-            <h3>Youth Orange Tee</h3>
-            <p class="price">Price: $19.99</p>
-            <button onclick="window.location.href='{{ url_for('product_detail', product_id=3) }}'">View Details</button>
-        </div>
+  <h2>Featured Projects</h2>
+  <div class="products-grid">
+    <div class="product-card">
+      <a href="{{ url_for('project_detail', project_id=1) }}">
+        <img src="{{ url_for('static', filename='project1.jpg') }}" alt="Project 1">
+      </a>
+      <h3>Modern E-Commerce Template</h3>
+      <p class="price">Flask | Stripe | Responsive UI</p>
+      <button onclick="window.location.href='{{ url_for('project_detail', project_id=1) }}'">View Project</button>
     </div>
+
+    <div class="product-card">
+      <a href="{{ url_for('project_detail', project_id=2) }}">
+        <img src="{{ url_for('static', filename='project2.jpg') }}" alt="Project 2">
+      </a>
+      <h3>Freelancer Portfolio</h3>
+      <p class="price">HTML/CSS | Scroll Animations | SEO</p>
+      <button onclick="window.location.href='{{ url_for('project_detail', project_id=2) }}'">View Project</button>
+    </div>
+
+    <div class="product-card">
+      <a href="{{ url_for('project_detail', project_id=3) }}">
+        <img src="{{ url_for('static', filename='project3.jpg') }}" alt="Project 3">
+      </a>
+      <h3>Agency Landing Page</h3>
+      <p class="price">JavaScript | Tailwind | Mobile First</p>
+      <button onclick="window.location.href='{{ url_for('project_detail', project_id=3) }}'">View Project</button>
+    </div>
+  </div>
 </section>
-
-
-
 {% endblock %}
