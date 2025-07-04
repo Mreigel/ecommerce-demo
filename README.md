@@ -1,41 +1,54 @@
-# Ecommerce-demo  
-*Custom Web Design Solutions*
+# Ecommerce-Demo  
+Full-Stack Web App with Docker Support | Built with Flask
+
+## 📌 About  
+This is a full-stack web application designed as a professional portfolio and demo site for a web development team. It features custom routes, user authentication, resume uploads, and a database-driven project showcase — all built with Python (Flask) and now fully containerized using Docker.
+
+This project highlights our growing dev team's capability to build and deploy scalable, modern applications.
 
 ---
 
-## About  
-This project is a clean and professional website template designed for a web development agency or freelance team. Built to represent our team's custom web design skills, this site highlights our ability to deliver modern, responsive websites from concept to deployment. The goal is to provide a strong, modern front for prospective clients looking for custom website solutions.
-
----
-
-## Features  
+## 🚀 Features  
 - Responsive design for desktop, tablet, and mobile  
-- Clean, semantic HTML  
-- Modern CSS layout techniques (Flexbox/Grid)  
-- Interactive JavaScript components  
+- Python Flask backend with SQLite database  
+- User authentication and resume upload  
+- Docker-ready for cloud deployment (e.g., AWS, Render, DigitalOcean)  
+- Semantic HTML templates and modern CSS  
+- Seeded database for portfolio projects  
 
 ---
 
-## Running Locally  
-No backend needed. To run the latest version locally, be sure to check out the `Website` branch:
+## 🧪 Running Locally with Docker (Recommended)
 
-```bash
-git clone https://github.com/Mreigel/ecommerce-demo
-cd ecommerce-demo
-git checkout Website
-# open index.html in your browser
-```
+    git clone https://github.com/Mreigel/Website-Development.git
+    cd Website-Development
+    git checkout Website
 
-> **Note:** The `Website` branch contains the active portfolio project.  
-> Branches like `WebDev` are used for earlier demos or active development.
+    # Build and run with Docker
+    docker build -t ecommerce-demo .
+    docker run -p 5000:5000 ecommerce-demo
+
+    # Then visit http://localhost:5000 in your browser
 
 ---
 
-## Contact  
+## 🛠️ Running Manually (Without Docker)
+
+    pip install -r requirements.txt
+    python app.py
+
+---
+
+## 📁 Branches  
+- `Website` – Main working branch
+- `WebDev` – Developer branch
+
+---
+
+## 📬 Contact
+
 **Michael Reigel**  
-[LinkedIn](https://www.linkedin.com/in/mreigel/)  
-[GitHub](https://github.com/Mreigel)  
+[LinkedIn](#) | [GitHub](https://github.com/Mreigel)
 
 **Joe Lima**  
-[LinkedIn](https://www.linkedin.com/in/joe-lima/)  
-[GitHub](https://github.com/jlima9001)
+[LinkedIn](#) | [GitHub](#)
