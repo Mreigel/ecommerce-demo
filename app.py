@@ -208,4 +208,5 @@ if __name__ == '__main__':
             db.session.commit()
             print("✅ Sample projects seeded.")
 
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
+
