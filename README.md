@@ -1,10 +1,10 @@
-# ecommerce-demo  
-*Web Development Fundamentals Portfolio Project*
+# Ecommerce-demo  
+Custom Web Design Solutions
 
 ---
 
 ## About  
-This project is a sample website showcasing my abilities in HTML, CSS, and JavaScript. It features responsive design principles, clean code, and modern web practices. It serves as a portfolio piece to demonstrate my readiness for a role within web development.
+This project is a clean, professional website template crafted for a web development agency or freelance team. It showcases our ability to deliver custom, responsive websites—from concept to deployment. The goal is to provide a polished, contemporary presence for prospective clients seeking tailored web design solutions.
 
 ---
 
@@ -25,10 +25,11 @@ cd ecommerce-demo
 # open index.html in browser
 ```
 
-## Contact
-Michael Reigel
-[LinkedIn](https://www.linkedin.com/in/mreigel/)
+## Contact  
+**Michael Reigel**  
+[LinkedIn](https://www.linkedin.com/in/mreigel/)  
 [GitHub](https://github.com/Mreigel)
 
-
-
+**Joe Lima**  
+[LinkedIn](https://www.linkedin.com/in/joe-lima/)  
+[GitHub](https://github.com/jlima9001)
