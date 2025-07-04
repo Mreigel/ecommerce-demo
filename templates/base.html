@@ -83,65 +83,70 @@
     {% block content %}{% endblock %}
 </div>
 
+<!-- Other body content -->
+
 <script>
   const signinBtn = document.getElementById('signin-btn');
   const signinDropdown = document.getElementById('signin-dropdown');
 
-  signinBtn.addEventListener('click', () => {
-    if (signinDropdown.style.display === 'none' || signinDropdown.style.display === '') {
-      signinDropdown.style.display = 'block';
-    } else {
-      signinDropdown.style.display = 'none';
-    }
-  });
+  if (signinBtn && signinDropdown) {
+    signinBtn.addEventListener('click', () => {
+      if (signinDropdown.style.display === 'none' || signinDropdown.style.display === '') {
+        signinDropdown.style.display = 'block';
+      } else {
+        signinDropdown.style.display = 'none';
+      }
+    });
 
-  // Hide dropdown if clicking outside
-  window.addEventListener('click', (e) => {
-    if (!signinBtn.contains(e.target) && !signinDropdown.contains(e.target)) {
-      signinDropdown.style.display = 'none';
-    }
-  });
+    window.addEventListener('click', (e) => {
+      if (!signinBtn.contains(e.target) && !signinDropdown.contains(e.target)) {
+        signinDropdown.style.display = 'none';
+      }
+    });
+  }
 </script>
 
 <script>
   const hero = document.getElementById("hero-banner");
-  const images = [
-    "/static/images/heroimage1.jpg",
-    "/static/images/heroimage2.jpg",
-    "/static/images/heroimage3.jpg"
-  ];
-  let index = 0;
 
-  function changeHeroBackground() {
-    hero.style.backgroundImage = `url('${images[index]}')`;
-    index = (index + 1) % images.length;
+  if (hero) {
+    const images = [
+      "/static/images/heroimage1.jpg",
+      "/static/images/heroimage2.jpg",
+      "/static/images/heroimage3.jpg"
+    ];
+    let index = 0;
+
+    function changeHeroBackground() {
+      hero.style.backgroundImage = `url('${images[index]}')`;
+      index = (index + 1) % images.length;
+    }
+
+    changeHeroBackground();
+    setInterval(changeHeroBackground, 10000);
   }
-
-  changeHeroBackground(); // Initial image
-  setInterval(changeHeroBackground, 10000); // Change every 5 seconds
 </script>
 
 <script>
   const toggleBtn = document.getElementById("theme-toggle");
   const body = document.body;
 
-  // Load saved theme on page load
   if (localStorage.getItem("theme") === "dark") {
     body.classList.add("dark-mode");
   }
 
-  toggleBtn.addEventListener("click", () => {
-    body.classList.toggle("dark-mode");
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      body.classList.toggle("dark-mode");
 
-    if (body.classList.contains("dark-mode")) {
-      localStorage.setItem("theme", "dark");
-    } else {
-      localStorage.setItem("theme", "light");
-    }
-  });
+      if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+      }
+    });
+  }
 </script>
 
-
 </body>
-
 </html>

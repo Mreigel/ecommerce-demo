@@ -58,12 +58,41 @@
       font-size: 0.9rem;
       margin-top: 0.5rem;
     }
+    .flash {
+      background-color: #ffc107;
+      color: #333;
+      padding: 0.5rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .extra-links {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .extra-links a {
+      color: #007bff;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
 <div class="signup-container">
   <h2>Create Account</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
   <form method="POST" onsubmit="return validateForm()">
     <label for="first-name">First Name</label>
     <input type="text" name="first_name" id="first-name" required>
@@ -104,6 +133,11 @@
 
     <button type="submit">Sign Up</button>
   </form>
+
+  <div class="extra-links">
+    <p>Already have an account? <a href="{{ url_for('login') }}">Log in here</a>.</p>
+    <p><a href="{{ url_for('home') }}">Back to Home</a></p>
+  </div>
 </div>
 
 <script>

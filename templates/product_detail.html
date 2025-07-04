@@ -7,25 +7,106 @@
 
 <div class="content" style="max-width: 800px; margin: 2rem auto;">
   <h1>{{ product.name }}</h1>
-<style>
-  .product-label {
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
 
-  .product-select {
-    color: #000;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-    border-radius: 5px;
-    width: 100%;
-  }
-</style>
+  <style>
+    .carousel-container {
+      position: relative;
+      max-width: 500px;
+      margin: 2rem auto;
+    }
 
-  <img class="product-image" src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
+    .carousel-image {
+      display: none;
+      width: 100%;
+      height: 300px;
+      object-fit: contain;
+    }
+
+    .carousel-image.active {
+      display: block;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .carousel-btn.left {
+      left: 10px;
+    }
+
+    .carousel-btn.right {
+      right: 10px;
+    }
+
+    .product-label {
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .product-select {
+      color: #000;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      border-radius: 5px;
+      width: 100%;
+    }
+  </style>
+
+  <div class="carousel-container">
+    {% if product.images %}
+      {% for image in product.images %}
+        <img src="{{ url_for('static', filename=image.url) }}"
+             class="carousel-image {% if loop.index0 == 0 %}active{% endif %}">
+      {% endfor %}
+
+      <button class="carousel-btn left" onclick="prevImage()">‹</button>
+      <button class="carousel-btn right" onclick="nextImage()">›</button>
+    {% else %}
+      <img src="{{ url_for('static', filename=product.image) }}"
+           alt="{{ product.name }}"
+           style="width: 100%; height: 300px; object-fit: contain;">
+    {% endif %}
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let currentIndex = 0;
+      const images = document.querySelectorAll('.carousel-image');
+
+      function showImage(index) {
+        images.forEach((img, i) => {
+          img.classList.toggle('active', i === index);
+        });
+      }
+
+      function prevImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+      }
+
+      function nextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      }
+
+      window.prevImage = prevImage;
+      window.nextImage = nextImage;
+
+      showImage(currentIndex);
+    });
+  </script>
 
   <p>{{ product.description }}</p>
   <p class="price">${{ "%.2f"|format(product.price) }}</p>
