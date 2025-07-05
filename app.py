@@ -67,6 +67,15 @@ def join():
 def home():
     return render_template("home.html")
 
+@app.route('/inquiry', methods=['GET', 'POST'])
+def inquiry():
+    if request.method == 'POST':
+        # You can extract data here with request.form.get('name') etc.
+        # Upload file logic can go here later
+        flash("Inquiry submitted successfully!", "success")
+        return redirect(url_for('inquiry'))
+    return render_template('inquiry.html')
+
 
 @app.route('/about')
 def about():
